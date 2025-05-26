@@ -40,3 +40,34 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Make react-calendar fill its container */
+.react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* Add grid lines to each day cell in react-calendar */
+.react-calendar__month-view__days__day {
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Optional: make the cells a bit taller for better appearance */
+.react-calendar__tile {
+  min-height: 80px;
+}
+
+.react-calendar__navigation {
+  font-size: 2rem;         /* Make the month/year bigger */
+  font-weight: bold;       /* Optional: bold text */
+  min-height: 60px;        /* Optional: more height */
+}
+
+.react-calendar__navigation button {
+  font-size: 1.5rem;         /* Make the navigation arrows bigger */
+  padding: 0 16px;         /* Optional: more space around arrows */
+}
