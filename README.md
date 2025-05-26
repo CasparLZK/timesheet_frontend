@@ -43,10 +43,7 @@ Every time you push to the `main` branch:
 npm install --save-dev semantic-release @semantic-release/npm @semantic-release/git @semantic-release/github
 ````
 
-### 2. Add a configuration file
-
-#### Option 1: `.releaserc.json`
-
+### 2. Add a configuration file: `.releaserc.json`
 ```json
 {
   "branches": ["main"],
@@ -58,27 +55,6 @@ npm install --save-dev semantic-release @semantic-release/npm @semantic-release/
     "@semantic-release/git"
   ]
 }
-```
-
-#### Option 2: `release.config.js`
-
-```js
-module.exports = {
-  branches: ['main'],
-  plugins: [
-    '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
-    '@semantic-release/npm',
-    '@semantic-release/github',
-    [
-      '@semantic-release/git',
-      {
-        assets: ['package.json', 'CHANGELOG.md'],
-        message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
-      }
-    ]
-  ]
-};
 ```
 
 ### 3. Setup GitHub Action
@@ -136,7 +112,6 @@ Semantic Release uses [Conventional Commits](https://www.conventionalcommits.org
 feat: add login page
 fix: correct validation logic
 chore: update dependencies
-feat!: switch to new API endpoint
 BREAKING CHANGE: response format changed
 ```
 
