@@ -104,7 +104,7 @@ Semantic Release uses [Conventional Commits](https://www.conventionalcommits.org
 | `feat`                                       | A new feature    | Minor        |
 | `fix`                                        | A bug fix        | Patch        |
 | `chore`, `docs`, `style`, `refactor`, `test` | Internal changes | No bump      |
-| `feat!`, `fix!` or `BREAKING CHANGE:`        | Breaking change  | Major        |
+| `BREAKING CHANGE:`                           | Breaking change  | Major        |
 
 **Examples:**
 
