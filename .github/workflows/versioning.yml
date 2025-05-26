@@ -12,12 +12,6 @@ jobs:
       # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
-      
-      # Step 2: Configure Git user for automation
-      # - name: Configure Git user for automation
-      #   run: |
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # Step 2: Set up Node.js environment
       # Required for Vite, npm, and semantic-release to work
