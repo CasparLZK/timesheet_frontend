@@ -4,9 +4,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
+  // feat: major change
   const [count, setCount] = useState(0)
-  // test breaking changes
-  // test breaking changes 2
+
   return (
     <>
       <div>
