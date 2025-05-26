@@ -5,7 +5,7 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-  // test CI
+  // test CI patch
   return (
     <>
       <div>
