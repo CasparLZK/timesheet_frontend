@@ -38,7 +38,7 @@ jobs:
       - name: Debug GH_TOKEN
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        run: echo "GH_TOKEN length: ${#GH_TOKEN}"
+        run: echo "${#GH_TOKEN}"
 
       # Step 5: Run semantic-release to:
       # - Analyze commits
