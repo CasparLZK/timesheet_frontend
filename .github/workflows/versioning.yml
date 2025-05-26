@@ -43,5 +43,5 @@ jobs:
       # - Publish a GitHub Release
       - name: Run Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to push tags and create release
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # GitHub token to push tags and create release
         run: npx semantic-release
