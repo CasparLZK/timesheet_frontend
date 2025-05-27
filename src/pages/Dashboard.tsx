@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Grid,
   Paper,
   Typography,
   Card,
@@ -24,27 +23,47 @@ const getMonthlyChartData = (days: CalendarDay[]) => {
   days.forEach(d => {
     const date = new Date(d.date);
     const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    grouped[key] = (grouped[key] || 0) + d.hours;
+    const totalDayHours = d.entries.reduce((sum, entry) => sum + entry.hours, 0);
+    grouped[key] = (grouped[key] || 0) + totalDayHours;
   });
-  return Object.entries(grouped).map(([month, hours]) => ({
-    month,
-    hours,
-  }));
+  // Sort months chronologically
+  return Object.entries(grouped)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([month, hours]) => ({
+      month,
+      hours,
+    }));
 };
 
 const getSummary = (days: CalendarDay[]) => {
-  const totalHours = days.reduce((sum, d) => sum + d.hours, 0);
-  const daysWithEntries = days.length;
+  const allEntries = days.flatMap(d => d.entries);
+  const totalHours = allEntries.reduce((sum, entry) => sum + entry.hours, 0);
+  const daysWithEntries = days.filter(d => d.entries.length > 0).length;
   const avgHours = daysWithEntries ? (totalHours / daysWithEntries) : 0;
-  const overtime = days.filter(d => d.hours > 8).reduce((sum, d) => sum + (d.hours - 8), 0);
+  const overtime = days.reduce((sum, d) => {
+    const total = d.entries.reduce((s, e) => s + e.hours, 0);
+    return sum + (total > 8 ? total - 8 : 0);
+  }, 0);
   return { totalHours, avgHours, overtime };
+};
+
+const getRecentEntries = (days: CalendarDay[], count = 5) => {
+  // Flatten all entries with their date
+  const allEntries = days.flatMap(d =>
+    d.entries.map(entry => ({
+      ...entry,
+      date: d.date,
+    }))
+  );
+  // Sort by date descending
+  return allEntries
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, count);
 };
 
 const Dashboard: React.FC = () => {
   const chartData = getMonthlyChartData(mockTimesheets);
-  const recentEntries = [...mockTimesheets]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5);
+  const recentEntries = getRecentEntries(mockTimesheets, 5);
   const { totalHours, avgHours, overtime } = getSummary(mockTimesheets);
 
   return (
@@ -112,7 +131,7 @@ const Dashboard: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Date</TableCell>
-                <TableCell>Task</TableCell>
+                <TableCell>Project Code</TableCell>
                 <TableCell>Hours</TableCell>
               </TableRow>
             </TableHead>
@@ -120,7 +139,7 @@ const Dashboard: React.FC = () => {
               {recentEntries.map((entry, idx) => (
                 <TableRow key={idx}>
                   <TableCell>{new Date(entry.date).toLocaleDateString()}</TableCell>
-                  <TableCell>{entry.task}</TableCell>
+                  <TableCell>{entry.projectCode}</TableCell>
                   <TableCell>{entry.hours}</TableCell>
                 </TableRow>
               ))}

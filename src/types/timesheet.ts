@@ -1,5 +1,9 @@
+export interface TimesheetEntry {
+  projectCode: string;
+  hours: number;
+}
+
 export interface CalendarDay {
   date: Date;
-  hours: number;
-  task: string;
+  entries: TimesheetEntry[];
 }

@@ -3,9 +3,12 @@ import TimesheetCalendar from '../components/TimesheetCalendar';
 import { CalendarDay } from '../types/timesheet';
 import { mockTimesheets } from '../mocks/timesheets';
 import { Button, Typography, Paper, Box } from '@mui/material';
+import TimesheetMonthActions from '../components/TimesheetMonthActions';
 
 const TimesheetPage = () => {
   const [days, setDays] = useState<CalendarDay[]>([]);
+  const [months, setMonths] = useState<Number>(0);
+  const [years, setYears] = useState<Number>(0);
 
   useEffect(() => {
     setDays(mockTimesheets);
@@ -43,9 +46,10 @@ const TimesheetPage = () => {
           Timesheet Entry
         </Typography>
         <Box sx={{ mb: 3 }}>
-          <TimesheetCalendar days={days} onUpdate={handleUpdate} />
+          <TimesheetCalendar days={days} onUpdate={handleUpdate} onSetMonths={setMonths} onSetYears={setYears} />
         </Box>
-        <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <TimesheetMonthActions days={days} setDays={setDays} months={months} years={years} />
           <Button
             variant="contained"
             color="primary"

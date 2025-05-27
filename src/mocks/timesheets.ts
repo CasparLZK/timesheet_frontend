@@ -1,34 +1,54 @@
 import { CalendarDay } from '../types/timesheet';
 
-export const mockTimesheets: CalendarDay[] = [
-  // April 2024
-  { date: new Date(2024, 3, 2), hours: 4, task: 'Feature dev' },
-  { date: new Date(2024, 3, 3), hours: 6, task: 'Bug fix' },
-  { date: new Date(2024, 3, 7), hours: 5, task: 'Code review' },
-
-  // May 2024 (gaps between days)
-  { date: new Date(2024, 4, 1), hours: 3, task: 'Feature dev' },
-  { date: new Date(2024, 4, 5), hours: 7, task: 'Bug fix' },
-  { date: new Date(2024, 4, 15), hours: 2, task: 'Code review' },
-
-  // December 2024
-  { date: new Date(2024, 11, 10), hours: 8, task: 'Feature dev' },
-  { date: new Date(2024, 11, 11), hours: 4, task: 'Bug fix' },
-
-  // January 2025
-  { date: new Date(2025, 0, 2), hours: 6, task: 'Feature dev' },
-  { date: new Date(2025, 0, 20), hours: 5, task: 'Code review' },
-
-  // May 2025 (as before, but with some gaps)
-  { date: new Date(2025, 4, 4), hours: 2, task: 'Feature dev' },
-  { date: new Date(2025, 4, 3), hours: 7, task: 'Code review' },
-  { date: new Date(2025, 4, 7), hours: 8, task: 'Feature dev' },
-  { date: new Date(2025, 4, 10), hours: 3, task: 'Feature dev' },
-  { date: new Date(2025, 4, 15), hours: 8, task: 'Code review' },
-  { date: new Date(2025, 4, 20), hours: 2, task: 'Bug fix' },
-  { date: new Date(2025, 4, 25), hours: 4, task: 'Feature dev' },
-  { date: new Date(2025, 4, 30), hours: 8, task: 'Feature dev' },
-
-  // June 2025 (single entry)
-  { date: new Date(2025, 5, 12), hours: 5, task: 'Bug fix' },
+const projectCodes = [
+  'PRJ-1001',
+  'PRJ-1002',
+  'PRJ-1003',
+  'PRJ-1004',
+  'PRJ-1005',
+  'PRJ-1006',
+  'PRJ-1007',
+  'PRJ-1008',
+  'PRJ-1009',
+  'PRJ-1010',
 ];
+
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomEntries(): { projectCode: string; hours: number }[] {
+  const entryCount = getRandomInt(1, 3); // 1-3 entries per day
+  const usedCodes = new Set<string>();
+  const entries = [];
+  for (let i = 0; i < entryCount; i++) {
+    let code: string;
+    do {
+      code = projectCodes[getRandomInt(0, projectCodes.length - 1)];
+    } while (usedCodes.has(code));
+    usedCodes.add(code);
+    entries.push({
+      projectCode: code,
+      hours: getRandomInt(1, 8),
+    });
+  }
+  return entries;
+}
+
+const mockTimesheets: CalendarDay[] = [];
+
+for (let year = 2023; year <= 2025; year++) {
+  for (let month = 0; month < 12; month++) {
+    // Ensure at least 10 entries per month
+    for (let i = 0; i < 10; i++) {
+      // Pick a random day in the month (1-28 to avoid invalid dates)
+      const day = getRandomInt(1, 28);
+      mockTimesheets.push({
+        date: new Date(year, month, day),
+        entries: getRandomEntries(),
+      });
+    }
+  }
+}
+
+export { mockTimesheets };

@@ -15,23 +15,24 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { NavLink, useLocation } from 'react-router-dom';
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const Sidebar = () => {
   const location = useLocation();
 
   return (
     <Drawer
-  variant="permanent"
-  sx={{
-    width: 240,
-    flexShrink: 0,
-    '& .MuiDrawer-paper': {
-      width: 240,
-      boxSizing: 'border-box',
-    },
-  }}
->
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        [`& .MuiDrawer-paper`]: {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+          backgroundColor: '#f8f9fa',
+          borderRight: '1px solidrgb(255, 0, 0)',
+        },
+      }}
+    >
       <Toolbar>
         <Box sx={{ width: '100%', textAlign: 'center' }}>
           <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: 1 }}>
