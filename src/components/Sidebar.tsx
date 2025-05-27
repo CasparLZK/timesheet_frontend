@@ -22,17 +22,16 @@ const Sidebar = () => {
 
   return (
     <Drawer
-      variant="permanent"
-      sx={{
-        width: drawerWidth,
-        [`& .MuiDrawer-paper`]: {
-          width: drawerWidth,
-          boxSizing: 'border-box',
-          backgroundColor: '#f8f9fa',
-          borderRight: '1px solid #e0e0e0',
-        },
-      }}
-    >
+  variant="permanent"
+  sx={{
+    width: 240,
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+      width: 240,
+      boxSizing: 'border-box',
+    },
+  }}
+>
       <Toolbar>
         <Box sx={{ width: '100%', textAlign: 'center' }}>
           <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: 1 }}>
