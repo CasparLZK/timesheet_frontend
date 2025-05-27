@@ -1,23 +1,26 @@
 import React from 'react';
-import { Box, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
-type LayoutProps = {
-  children: React.ReactNode;
-};
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Header />
-        {children}
-      </Box>
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <Box sx={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+    <Sidebar />
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        p: { xs: 2, sm: 4 },
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <Header />
+      {children}
     </Box>
-  );
-};
+  </Box>
+);
 
 export default Layout;

@@ -1,5 +1,16 @@
 import React from 'react';
-import { Drawer, List, ListItemIcon, ListItemText, Toolbar, ListItemButton } from '@mui/material';
+import {
+  Drawer,
+  List,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  ListItemButton,
+  Typography,
+  Box,
+  ListSubheader,
+  Divider,
+} from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -14,17 +25,52 @@ const Sidebar = () => {
       variant="permanent"
       sx={{
         width: drawerWidth,
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        [`& .MuiDrawer-paper`]: {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+          backgroundColor: '#f8f9fa',
+          borderRight: '1px solid #e0e0e0',
+        },
       }}
     >
-      <Toolbar />
-      <List>
+      <Toolbar>
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: 1 }}>
+            MyTimesheet
+          </Typography>
+        </Box>
+      </Toolbar>
+      <Divider />
+      <List
+        sx={{
+          mt: 1,
+          '& .MuiListItemButton-root': {
+            borderRadius: 2,
+            mx: 1,
+            mb: 0.5,
+          },
+          '& .Mui-selected, & .Mui-selected:hover': {
+            backgroundColor: '#1976d2',
+            color: '#fff',
+            '& .MuiListItemIcon-root': {
+              color: '#fff',
+            },
+          },
+        }}
+        subheader={
+          <ListSubheader component="div" sx={{ bgcolor: 'inherit', fontWeight: 600 }}>
+            Navigation
+          </ListSubheader>
+        }
+      >
         <ListItemButton
           component={NavLink}
           to="/dashboard"
           selected={location.pathname === '/dashboard'}
         >
-          <ListItemIcon><DashboardIcon /></ListItemIcon>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItemButton>
         <ListItemButton
@@ -32,7 +78,9 @@ const Sidebar = () => {
           to="/timesheets"
           selected={location.pathname === '/timesheets'}
         >
-          <ListItemIcon><AccessTimeIcon /></ListItemIcon>
+          <ListItemIcon>
+            <AccessTimeIcon />
+          </ListItemIcon>
           <ListItemText primary="Timesheets" />
         </ListItemButton>
       </List>
