@@ -22,34 +22,40 @@ const TimesheetPage = () => {
   };
 
   return (
-    <Paper
-      elevation={4}
-      sx={{
-        width: '100%',
-        maxWidth: 900,
-        mt: 4,
-        p: { xs: 2, sm: 4 },
-        borderRadius: 4,
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
-        background: 'rgba(255,255,255,0.95)',
-      }}
-    >
-      <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700 }}>
-        Timesheet Entry
-      </Typography>
-      <Box sx={{ mb: 3 }}>
-        <TimesheetCalendar days={days} onUpdate={handleUpdate} />
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ width: 120 }}
+    <Box
+          sx={{
+            width: '100%',
+            mx: 'auto',
+            mt: 4,
+            mb: 1,
+          }}
         >
-          Submit
-        </Button>
-      </Box>
-    </Paper>
+      <Paper
+        elevation={4}
+        sx={{
+          p: { xs: 2, sm: 4 },
+          borderRadius: 4,
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+          background: 'rgba(255,255,255,0.95)',
+        }}
+      >
+        <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700 }}>
+          Timesheet Entry
+        </Typography>
+        <Box sx={{ mb: 3 }}>
+          <TimesheetCalendar days={days} onUpdate={handleUpdate} />
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ width: 120 }}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
 
