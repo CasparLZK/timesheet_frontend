@@ -9,9 +9,54 @@ jobs:
   versioning:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: github_app_token
+        shell: bash
+        env:
+          GH_APP_ID: ${{ secrets.GH_APP_ID }}
+          GH_APP_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          GH_API_URL: ${{ github.server_url }}/api/v4
+        run: |
+          NOW=$(date +%s)
+          EXP=$(($NOW + 540))
+
+          HEADER='{"alg":"RS256","typ":"JWT"}'
+          PAYLOAD="{\"iat\":$NOW,\"exp\":$EXP,\"iss\":$GH_APP_ID}"
+
+          b64enc() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+
+          HEADER_B64=$(echo -n "$HEADER" | b64enc)
+          PAYLOAD_B64=$(echo -n "$PAYLOAD" | b64enc)
+          DATA="${HEADER_B64}.${PAYLOAD_B64}"
+
+          SIGNATURE=$(echo -n "$DATA" | openssl dgst -sha256 -sign <(echo "$GH_APP_PRIVATE_KEY") | b64enc)
+          JWT="${DATA}.${SIGNATURE}"
+
+          echo "Fetching installation token..."
+          TOKEN_RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer $JWT" \
+            -H "Accept: application/vnd.github+json" \
+            "$GH_API_URL/app/installations/$GH_APP_INSTALLATION_ID/access_tokens")
+
+          TOKEN=$(echo "$TOKEN_RESPONSE" | jq -r '.token')
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+
       # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Setup Git for pushing
+        env:
+          GITHUB_URL: ${{ github.server_url }}
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ steps.github_app_token.outputs.token }}
+        run: |
+          CLEAN_URL="${GITHUB_URL#https://}"
+          git config --global user.name "github-app[bot]"
+          git config --global user.email "github-app[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@$CLEAN_URL/$GH_REPO.git
 
       # Step 2: Set up Node.js environment
       # Required for Vite, npm, and semantic-release to work
