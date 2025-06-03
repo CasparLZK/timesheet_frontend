@@ -7,7 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Timesheets from './pages/Timesheet';
 
 const queryClient = new QueryClient();
-// Test query client configuration
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <Router basename="/timesheet_frontend">
